@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.sbrf.sqlpractice.dao.AuthorDaoJdbc;
 import ru.sbrf.sqlpractice.models.Author;
@@ -55,7 +56,8 @@ class SqlPracticeApplicationTests {
     @Test
     void testDeleteAuthor() {
         long id = jdbc.delete(1);
-        SQLException throwables = assertThrows(SQLException.class, () -> jdbc.getById(id));
-        assertEquals(throwables.getErrorCode(), 1);
+//        Throwable throwables = assertThrows(Throwable.class,() -> new RuntimeException());
+//        assertEquals(throwables.getMessage(), "Incorrect result size: expected 1, actual 0");
+        assertThrows(EmptyResultDataAccessException.class, () -> jdbc.getById(id));
     }
 }
